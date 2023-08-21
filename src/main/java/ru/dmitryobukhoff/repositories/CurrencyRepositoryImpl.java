@@ -12,7 +12,7 @@ public class CurrencyRepositoryImpl implements CurrencyRepository{
 
     @Override
     public void create(Currency currency) {
-        String query = "INSERT INTO currency_exchange.currencies(code, full_name, sign) VALUES (?, ?, ?)";
+        String query = "INSERT INTO currency_exchanger.currencies(code, full_name, sign) VALUES (?, ?, ?)";
         try{
             Connection connection = DatabaseConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);

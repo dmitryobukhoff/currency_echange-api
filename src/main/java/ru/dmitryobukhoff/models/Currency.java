@@ -16,6 +16,12 @@ public class Currency {
         this.sign = sign;
     }
 
+    public Currency(String name, String code, String sign) {
+        this.name = name;
+        this.code = code;
+        this.sign = sign;
+    }
+
     public Long getId() {
         return id;
     }

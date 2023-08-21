@@ -43,4 +43,24 @@ public class CurrencyService {
         printWriter.println(gson.toJson(currency.get()));
     }
 
+    public void addCurrency(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String name = request.getParameter("name");
+        String code = request.getParameter("code");
+        String sign = request.getParameter("sign");
+        if(!isValid(name, code, sign)){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Отсутствие нужного поля формы.");
+            return;
+        }
+        Optional<Currency> currency = currencyRepository.findCurrencyByCode(code);
+        if(currency.isPresent()){
+            response.sendError(HttpServletResponse.SC_CONFLICT, "Такая валюта уже существует.");
+            return;
+        }
+        currencyRepository.create(new Currency(name, code, sign));
+    }
+
+    public boolean isValid(String name, String code, String sign){
+        return (name != null) && (code != null) && (sign != null) && (!name.isEmpty()) && (!code.isEmpty()) && (!sign.isEmpty());
+    }
+
 }
