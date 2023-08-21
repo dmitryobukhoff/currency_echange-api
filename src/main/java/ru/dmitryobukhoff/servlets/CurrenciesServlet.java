@@ -3,6 +3,7 @@ package ru.dmitryobukhoff.servlets;
 import com.google.gson.Gson;
 import ru.dmitryobukhoff.models.Currency;
 import ru.dmitryobukhoff.repositories.CurrencyRepositoryImpl;
+import ru.dmitryobukhoff.services.CurrencyService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,11 +17,11 @@ import java.util.List;
 @WebServlet(name = "currencyServlet", value = "/currencies")
 public class CurrencyServlet extends HttpServlet{
 
-    private CurrencyRepositoryImpl currencyRepository;
+    private CurrencyService currencyService;
 
     @Override
     public void init() throws ServletException {
-        currencyRepository = new CurrencyRepositoryImpl();
+        currencyService = new CurrencyService();
     }
 
     @Override
@@ -30,11 +31,7 @@ public class CurrencyServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Currency> currencies = currencyRepository.findAll();
-        Gson gson = new Gson();
-        PrintWriter printWriter = response.getWriter();
-        printWriter.println(gson.toJson(currencies));
-        printWriter.close();
+        currencyService.getCurrencies(response);
         super.doGet(request, response);
     }
 }
