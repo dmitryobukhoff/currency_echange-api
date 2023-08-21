@@ -1,7 +1,7 @@
 package ru.dmitryobukhoff.configs;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,7 +13,8 @@ public class DatabaseConnection {
 
     private DatabaseConnection(){
         try {
-            FileInputStream fileInputStream = new FileInputStream("D:\\Java\\Projects\\currency_exchange\\src\\main\\webapp\\WEB-INF\\properties\\connection.properties");
+            ClassLoader classLoader = DatabaseConnection.class.getClassLoader();
+            InputStream fileInputStream = classLoader.getResourceAsStream("connection.properties");
             Properties properties = new Properties();
             properties.load(fileInputStream);
             String driver = properties.getProperty("connection.driver");
