@@ -22,9 +22,8 @@ public class DatabaseConnection {
             String user = properties.getProperty("connection.user");
             String password = properties.getProperty("connection.password");
             Class.forName(driver);
-            properties.clone();
+            this.connection = DriverManager.getConnection(url, user, password);
             fileInputStream.close();
-            connection = DriverManager.getConnection(url, user, password);
         } catch (IOException | ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +35,7 @@ public class DatabaseConnection {
         return databaseConnection;
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() throws SQLException {
         return connection;
     }
 }
