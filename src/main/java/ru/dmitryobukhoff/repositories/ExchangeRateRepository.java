@@ -12,5 +12,5 @@ public interface ExchangeRateRepository {
     void delete(ExchangeRate exchangeRate);
 
     List<ExchangeRate> findAll();
-    Optional<ExchangeRate> findRateByCodes(String currentCode, String targetCode);
+    Optional<ExchangeRate> findRateByCodes(String base, String target);
 }
