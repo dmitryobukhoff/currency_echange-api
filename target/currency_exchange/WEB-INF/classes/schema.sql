@@ -11,5 +11,5 @@ create table if not exists currency_exchanger.exchange_rates(
     id serial primary key,
     base_currency_id bigint references currency_exchanger.currencies(id),
     target_currency_id bigint references currency_exchanger.currencies(id),
-    rate decimal(6)
+    rate decimal(6, 3)
 );
