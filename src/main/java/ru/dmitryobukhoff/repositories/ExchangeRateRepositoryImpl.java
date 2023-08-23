@@ -1,14 +1,12 @@
 package ru.dmitryobukhoff.repositories;
 
 import ru.dmitryobukhoff.configs.DatabaseConnection;
+import ru.dmitryobukhoff.dtos.ExchangeRateCreateDTO;
 import ru.dmitryobukhoff.models.Currency;
 import ru.dmitryobukhoff.models.ExchangeRate;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +14,24 @@ import java.util.Optional;
 public class ExchangeRateRepositoryImpl implements ExchangeRateRepository{
 
     @Override
-    public void create(ExchangeRate exchangeRate) {
-
+    public void create(ExchangeRateCreateDTO exchangeRateCreateDTO) {
+        String query = "insert into currency_exchanger.exchange_rates(base_currency_id, target_currency_id, rate)\n" +
+                "values(\n" +
+                "\t(select id from currency_exchanger.currencies where code = ?),\n" +
+                "\t(select id from currency_exchanger.currencies where code = ?),\n" +
+                "\t?\n" +
+                ");";
+        try{
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, exchangeRateCreateDTO.base());
+            preparedStatement.setString(2, exchangeRateCreateDTO.target());
+            preparedStatement.setBigDecimal(3, exchangeRateCreateDTO.rate());
+            preparedStatement.execute();
+            preparedStatement.close();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
