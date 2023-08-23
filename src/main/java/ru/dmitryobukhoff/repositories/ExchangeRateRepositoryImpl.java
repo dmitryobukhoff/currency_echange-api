@@ -6,6 +6,7 @@ import ru.dmitryobukhoff.models.Currency;
 import ru.dmitryobukhoff.models.ExchangeRate;
 
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,19 @@ public class ExchangeRateRepositoryImpl implements ExchangeRateRepository{
 
     @Override
     public void update(ExchangeRate exchangeRate) {
-
+        String query = "update currency_exchanger.exchange_rates\n" +
+                "set rate = ?\n" +
+                "where id = ?;";
+        try{
+            Connection connection = DatabaseConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBigDecimal(1, exchangeRate.getRate());
+            preparedStatement.setLong(2, exchangeRate.getId());
+            preparedStatement.execute();
+            preparedStatement.close();
+        }catch (SQLException exception){
+            throw new RuntimeException(exception);
+        }
     }
 
     @Override

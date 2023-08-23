@@ -69,4 +69,26 @@ public class ExchangeRateService {
     private boolean isValid(String base, String target, String rate){
         return (base != null && target != null && rate != null && (!base.isEmpty()) && (!target.isEmpty()) && (!rate.isEmpty()));
     }
+
+    public void updateExchangeRate(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String url = request.getPathInfo();
+        if(url == null || url.length() == 1){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Коды валютных пар отсутствуют в запросе.");
+            return;
+        }else if(url.length() < 7){
+            response.sendError(HttpServletResponse.SC_LENGTH_REQUIRED, "Коды валютных пар неверны");
+            return;
+        }
+        String base = url.substring(1,4);
+        String target = url.substring(4);
+        Optional<ExchangeRate> exchangeRate = exchangeRateRepository.findRateByCodes(base, target);
+        if(exchangeRate.isEmpty()){
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Обменный курс для пары не найден.");
+            return;
+        }
+        BigDecimal rate = new BigDecimal(request.getParameter("rate"));
+        ExchangeRate exchangeRate1 = exchangeRate.get();
+        exchangeRate1.setRate(rate);
+        exchangeRateRepository.update(exchangeRate1);
+    }
 }
