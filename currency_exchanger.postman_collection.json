@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "d51f2c05-17f3-4438-b7c5-6d496f71a773",
+		"name": "currency_exchanger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23922045"
+	},
+	"item": [
+		{
+			"name": "currencies",
+			"item": [
+				{
+					"name": "get currenies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/currencies"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "currency",
+			"item": [
+				{
+					"name": "get current currency",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/currency/ABR"
+					},
+					"response": []
+				},
+				{
+					"name": "get not exist currency",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/currency/KML"
+					},
+					"response": []
+				},
+				{
+					"name": "create new currency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/currencies?name=Abracadebra&code=ABR&sign=$$",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"currencies"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Abracadebra"
+								},
+								{
+									"key": "code",
+									"value": "ABR"
+								},
+								{
+									"key": "sign",
+									"value": "$$"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "code = null",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/currency"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exchangeRates",
+			"item": [
+				{
+					"name": "get all exchange rates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/exchangeRates"
+					},
+					"response": []
+				},
+				{
+					"name": "create new currency exchange with exist voulute",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/exchangeRates?baseCurrencyCode=ABR&targetCurrencyCode=USD&rate=2.3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exchangeRates"
+							],
+							"query": [
+								{
+									"key": "baseCurrencyCode",
+									"value": "ABR"
+								},
+								{
+									"key": "targetCurrencyCode",
+									"value": "USD"
+								},
+								{
+									"key": "rate",
+									"value": "2.3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exchangeRate",
+			"item": [
+				{
+					"name": "get current exchange rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/exchangeRate/USDRUB"
+					},
+					"response": []
+				},
+				{
+					"name": "update rate",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/exchangeRate/ABRRUB?rate=2.35",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exchangeRate",
+								"ABRRUB"
+							],
+							"query": [
+								{
+									"key": "rate",
+									"value": "2.35"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange rate doesn't exist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/exchangeRate/RUBUSD"
+					},
+					"response": []
+				},
+				{
+					"name": "exchange rate = null",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/exchangeRate"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "exchange",
+			"item": [
+				{
+					"name": "conver from v1 to v2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/exchange?from=ABR&to=USD&amount=100",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "ABR"
+								},
+								{
+									"key": "to",
+									"value": "USD"
+								},
+								{
+									"key": "amount",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "exchange couldn't be done",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/exchange?from=CNY&to=ABR&amount=10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"exchange"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "CNY"
+								},
+								{
+									"key": "to",
+									"value": "ABR"
+								},
+								{
+									"key": "amount",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
