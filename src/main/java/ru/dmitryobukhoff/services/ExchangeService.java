@@ -49,7 +49,7 @@ public class ExchangeService {
                     BigDecimal rate2 = exchangeRateTargetUSD.get().getRate();
                     BigDecimal baseAmount = new BigDecimal(Double.parseDouble(amount));
                     BigDecimal convertedAmount = baseAmount.multiply(rate1).multiply(rate2);
-                    Output.print(printWriter, make(exchangeRateBaseUSD.get().getBase(), exchangeRateBaseUSD.get().getTarget(),
+                    Output.print(printWriter, make(exchangeRateBaseUSD.get().getBase(), exchangeRateTargetUSD.get().getTarget(),
                             rate1.multiply(rate2), baseAmount, convertedAmount));
                 }else{
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Обмен валют не может быть осуществлён");

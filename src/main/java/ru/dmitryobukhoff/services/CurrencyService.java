@@ -1,7 +1,7 @@
 package ru.dmitryobukhoff.services;
 
-import com.google.gson.Gson;
 import ru.dmitryobukhoff.models.Currency;
+import ru.dmitryobukhoff.models.Message;
 import ru.dmitryobukhoff.repositories.CurrencyRepositoryImpl;
 import ru.dmitryobukhoff.utils.Output;
 import ru.dmitryobukhoff.validators.Validator;
@@ -18,9 +18,11 @@ public class CurrencyService {
 
     public void getCurrencies(HttpServletResponse response) throws IOException {
         List<Currency> currencies = currencyRepository.findAll();
-        Gson gson = new Gson();
         PrintWriter printWriter = response.getWriter();
-        printWriter.println(gson.toJson(currencies));
+        if(currencies.isEmpty())
+            Output.print(printWriter, new Message("Валюты отсутствуют."));
+        else
+            Output.print(printWriter, currencies);
         printWriter.close();
     }
 
