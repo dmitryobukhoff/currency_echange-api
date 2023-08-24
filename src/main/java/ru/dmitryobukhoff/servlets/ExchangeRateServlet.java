@@ -35,10 +35,4 @@ public class ExchangeRateServlet extends HttpServlet {
     protected void doPatch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         exchangeRateService.updateExchangeRate(request, response);
     }
-
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println(request.getParameter("rate"));
-//        exchangeRateService.updateExchangeRate(request, response);
-//    }
 }
