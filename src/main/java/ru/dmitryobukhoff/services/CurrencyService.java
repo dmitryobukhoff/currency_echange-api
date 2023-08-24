@@ -3,6 +3,8 @@ package ru.dmitryobukhoff.services;
 import com.google.gson.Gson;
 import ru.dmitryobukhoff.models.Currency;
 import ru.dmitryobukhoff.repositories.CurrencyRepositoryImpl;
+import ru.dmitryobukhoff.utils.Output;
+import ru.dmitryobukhoff.validators.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,16 +40,16 @@ public class CurrencyService {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Валюта с таким кодом не найдена");
             return;
         }
-        Gson gson = new Gson();
         PrintWriter printWriter = response.getWriter();
-        printWriter.println(gson.toJson(currency.get()));
+        Output.print(printWriter, currency.get());
+        printWriter.close();
     }
 
     public void addCurrency(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         String code = request.getParameter("code");
         String sign = request.getParameter("sign");
-        if(!isValid(name, code, sign)){
+        if(!Validator.isValid(name, code, sign)){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Отсутствие нужного поля формы.");
             return;
         }
@@ -57,10 +59,6 @@ public class CurrencyService {
             return;
         }
         currencyRepository.create(new Currency(name, code, sign));
-    }
-
-    public boolean isValid(String name, String code, String sign){
-        return (name != null) && (code != null) && (sign != null) && (!name.isEmpty()) && (!code.isEmpty()) && (!sign.isEmpty());
     }
 
 }
